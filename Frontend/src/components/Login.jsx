@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'; // 1. Importamos useNavigate
-import './Login.css'; // Importamos los estilos del login
+import './login.css';
 import logoRiblue from '../assets/logo/logo.jpeg';
-
 function Login() {
 
     const navigate = useNavigate(); //2. Inicializamos el navegador
