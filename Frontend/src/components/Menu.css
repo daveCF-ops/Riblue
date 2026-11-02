@@ -1,0 +1,81 @@
+/* Menu.css */
+
+/* Fondo de toda la pantalla */
+.menu-container {
+    min-height: 100vh;
+    background-color: #152B42;
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* La barra de arriba */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #233D58;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+.menu-header h1 {
+    color: #FFFFFF;
+    margin: 0;
+}
+
+/* Botón para salir */
+.btn-logout {
+    background-color: transparent;
+    color: #FFFFFF;
+    border: 1px solid #233D58;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-logout:hover {
+    background-color: #1C3753;
+}
+
+/* La cuadrícula que ordena los rectángulos */
+.menu-grid {
+    display: grid;
+    /* Aquí está el cambio clave: en lugar de 1fr, usamos un tamaño fijo máximo */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 240px));
+    gap: 20px; 
+    /* justify-content: center centra toda la cuadrícula en la pantalla */
+    justify-content: center; 
+    margin: 0 auto;
+}
+
+/* El diseño de cada rectángulo */
+.menu-card {
+    background-color: #1C3753;
+    border: 1px solid #233D58;
+    border-radius: 12px;
+    /* Redujimos el padding para que no sean tan altos */
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: background-color 0.2s;
+}
+
+.menu-card:hover {
+    background-color: #233D58; 
+}
+
+/* El texto dentro de los rectángulos */
+.menu-card h2 {
+    color: #FFFFFF;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
