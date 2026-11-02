@@ -1,0 +1,186 @@
+/* Reset básico para que los márgenes y paddings no afecten la maquetación */
+* {
+  margin: 0; /* Elimina los márgenes exteriores por defecto de todos los elementos */
+  padding: 0; /* Elimina los rellenos interiores por defecto de todos los elementos */
+  box-sizing: border-box; /* Garantiza que el padding y bordes no aumenten el ancho total */
+}
+
+/* Contenedor principal que envuelve todo el sistema */
+.layout-container {
+  display: flex; /* Activa la disposición en fila horizontal (Sidebar a la izquierda, contenido a la derecha) */
+  min-height: 100vh; /* Obliga al contenedor a ocupar el 100% del alto de la pantalla */
+  background-color: #f7f9fa; /* Aplica el color gris blanco perlado como fondo general */
+  color: #2b303a; /* Define el color oscuro de texto base para toda la aplicación */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define la tipografía general */
+}
+
+/* ===== MENÚ LATERAL (SIDEBAR) ===== */
+.sidebar {
+  width: 250px; /* Ancho fijo para la barra lateral */
+  background-color: #152b42; /* Color de fondo azul oscuro corporativo */
+  color: #ffffff; /* Texto de color blanco para contraste sobre el fondo azul */
+  display: flex; /* Flexbox para estructurar los bloques verticalmente */
+  flex-direction: column; /* Apila el contenido (logo, menú, footer) en columna */
+  justify-content: space-between; /* Mantiene la navegación arriba y el footer en la parte inferior */
+  padding: 20px 0; /* Añade relleno superior e inferior dentro de la barra */
+  flex-shrink: 0; /* Evita que la barra lateral se encoja cuando cambie la resolución */
+}
+
+/* Encabezado del menú lateral (Marca/Logotipo) */
+.sidebar-brand {
+  display: flex; /* Alinea el icono y el texto uno al lado del otro */
+  align-items: center; /* Centra verticalmente el icono con respecto al texto */
+  gap: 12px; /* Espacio horizontal de 12px entre el icono y el texto */
+  padding: 0 20px 20px 20px; /* Relleno a los lados y abajo para separar de la lista */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria tenue en la parte inferior */
+}
+
+/* Título principal de la marca en el menú */
+.brand-title {
+  font-size: 1rem; /* Tamaño de letra de 16px para el nombre principal */
+  font-weight: 700; /* Texto en negrita resaltada */
+  letter-spacing: 1px; /* Separa ligeramente las letras para un toque moderno */
+}
+
+/* Subtítulo debajo de la marca */
+.brand-subtitle {
+  font-size: 0.65rem; /* Tamaño de texto pequeño para la descripción */
+  color: #a0aec0; /* Color de texto gris claro para menor jerarquía visual */
+  text-transform: uppercase; /* Convierte todo el texto del subtítulo a mayúsculas */
+}
+
+/* Sección contenedora de la lista de enlaces */
+.sidebar-nav {
+  padding: 20px 12px; /* Espaciado interno horizontal y vertical de la lista */
+  flex-grow: 1; /* Permite que el menú ocupe todo el espacio vertical disponible */
+}
+
+/* Título de cada sección dentro del menú (Ej. MENÚ PRINCIPAL) */
+.nav-section-label {
+  font-size: 0.7rem; /* Texto pequeño para las etiquetas de sección */
+  text-transform: uppercase; /* Fuerza las mayúsculas */
+  color: #718096; /* Gris tenue para no quitar protagonismo a los enlaces */
+  padding: 12px 10px 6px 10px; /* Espaciado alrededor de la etiqueta */
+  font-weight: 600; /* Texto seminegrita */
+  letter-spacing: 0.5px; /* Ligero espaciado de letras */
+}
+
+/* Lista desordenada del menú */
+.nav-list {
+  list-style: none; /* Quita los puntos/viñetas por defecto del elemento ul */
+  margin-bottom: 15px; /* Espacio debajo de cada grupo de lista */
+  padding: 0; /* Quita el relleno por defecto de la lista */
+}
+
+/* Enlace individual del menú (componente <Link>) */
+.nav-item {
+  display: flex; /* Alinea el icono y el texto en línea horizontal */
+  align-items: center; /* Centra el icono verticalmente con el texto */
+  gap: 12px; /* Separación horizontal entre icono y texto */
+  padding: 10px 14px; /* Relleno interior para crear una zona de clic amplia */
+  color: #cbd5e0; /* Color gris claro por defecto para el texto de los enlaces */
+  text-decoration: none; /* Elimina el subrayado azul nativo de las etiquetas Link */
+  border-radius: 8px; /* Bordes ligeramente redondeados para el foco de selección */
+  transition: all 0.2s ease; /* Transición suave al pasar el ratón o activar el ítem */
+  font-size: 0.9rem; /* Tamaño adecuado de lectura para opciones del menú */
+}
+
+/* Estado al pasar el cursor sobre la opción del menú */
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.08); /* Fondo blanco sutil semi-transparente */
+  color: #ffffff; /* Cambia el color del texto a blanco puro */
+}
+
+/* Estado cuando la opción está seleccionada/activa */
+.nav-item.active {
+  background-color: #f7f9fa; /* Fondo blanco perlado que contrasta con el azul */
+  color: #152b42; /* Cambia el texto al azul oscuro de la marca para destacar */
+  font-weight: 600; /* Aplica negrita para señalar la página actual */
+}
+
+/* Pie de la barra lateral */
+.sidebar-footer {
+  padding: 15px 20px 0 20px; /* Relleno interior superior y lateral */
+  font-size: 0.75rem; /* Texto pequeño descriptivo */
+  color: #718096; /* Color gris de baja prioridad */
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria tenue en la parte superior */
+}
+
+/* ===== ÁREA DE CONTENIDO PRINCIPAL ===== */
+.main-wrapper {
+  flex-grow: 1; /* Ocupa todo el resto del ancho de la pantalla */
+  display: flex; /* Disposición en flexbox */
+  flex-direction: column; /* Organiza la cabecera arriba y el contenido abajo */
+  min-width: 0; /* Evita desbordamientos de tabla en pantallas más pequeñas */
+}
+
+/* Encabezado superior general */
+.top-header {
+  display: flex; /* Alinea título a la izquierda y usuario a la derecha */
+  justify-content: space-between; /* Empuja los dos grupos a los extremos opuestos */
+  align-items: center; /* Centra verticalmente los elementos */
+  padding: 15px 30px; /* Relleno cómodo de la barra superior */
+  background-color: #ffffff; /* Fondo blanco puro para la cabecera */
+  border-bottom: 1px solid #e2e8f0; /* Borde gris fino inferior de separación */
+}
+
+/* Título dentro de la cabecera */
+.top-header h1 {
+  font-size: 1.4rem; /* Tamaño de letra destacado para el título de página */
+  color: #152b42; /* Texto en azul corporativo */
+  margin: 0; /* Quita el margen por defecto del h1 */
+}
+
+/* Contenedor del perfil de usuario a la derecha de la cabecera */
+.header-user-group {
+  display: flex; /* Alinea la información de usuario y el botón de salir */
+  align-items: center; /* Centra verticalmente los elementos */
+  gap: 15px; /* Espacio horizontal de 15px entre componentes */
+}
+
+/* Insignia / Badge de usuario */
+.user-badge {
+  display: flex; /* Alinea el círculo del avatar con el texto del nombre */
+  align-items: center; /* Centrado vertical */
+  gap: 8px; /* Espacio entre el círculo y el texto */
+  font-size: 0.85rem; /* Tamaño de letra de usuario */
+}
+
+/* Círculo del avatar del usuario */
+.avatar {
+  width: 30px; /* Ancho fijo de 30px */
+  height: 30px; /* Alto fijo de 30px */
+  background-color: #152b42; /* Fondo del círculo en azul oscuro */
+  color: #ffffff; /* Letra interna inicial en blanco */
+  border-radius: 50%; /* Transforma el recuadro en un círculo perfecto */
+  display: flex; /* Flexbox para centrar la letra inicial */
+  align-items: center; /* Centrado vertical de la inicial */
+  justify-content: center; /* Centrado horizontal de la inicial */
+  font-weight: bold; /* Pone la inicial en negrita */
+  font-size: 0.8rem; /* Tamaño de la inicial */
+}
+
+/* Botón de cerrar sesión */
+.logout-btn {
+  display: flex; /* Alinea el icono de salir con el texto */
+  align-items: center; /* Centrado vertical */
+  gap: 6px; /* Espacio de 6px entre icono y texto */
+  padding: 6px 12px; /* Relleno interior del botón */
+  border: 1px solid #cbd5e0; /* Borde sutil gris */
+  border-radius: 6px; /* Esquinas ligeramente suavizadas */
+  background: white; /* Fondo en color blanco */
+  cursor: pointer; /* Cambia el ratón a modo puntero al pasar encima */
+  font-size: 0.8rem; /* Tamaño del texto del botón */
+  transition: background 0.2s; /* Transición suave al pasar el ratón */
+}
+
+/* Efecto hover del botón de salir */
+.logout-btn:hover {
+  background-color: #edf2f7; /* Cambia a gris claro al interactuar */
+}
+
+/* Área donde se inyectan dinámicamente las vistas mediante <Outlet /> */
+.content-area {
+  padding: 25px 30px; /* Relleno perimetral para dar aire al contenido dinámico */
+  flex-grow: 1; /* Ocupa el espacio vertical sobrante de la ventana */
+}
