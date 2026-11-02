@@ -4,7 +4,7 @@ import Menu from './components/Menu';
 import Cliente from './views/Cliente';
 import Categoria from './views/Categoria';
 import Venta from './views/Venta';
-import './App.css';// Importamos los estilos globales de App
+// import './App.css';// Importamos los estilos globales de App
 
 function App() {
   return (
