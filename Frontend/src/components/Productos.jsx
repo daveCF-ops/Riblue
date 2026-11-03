@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { useState, useEffect } from 'react';
-import Migas from './Migas';
+// import Migas from './Migas';
 import FormularioProducto from './Modals/FormularioProducto';
-import FormularioCatalogo from './Modals/FormularioCatalogo';
-import { leerDatos, guardarDatos } from '../services/datos';
+// import FormularioCatalogo from './Modals/FormularioCatalogo';
+// import { leerDatos, guardarDatos } from '../services/datos';
 
 export default function Productos({ irA }) {
   const [productos, setProductos] = useState([]);

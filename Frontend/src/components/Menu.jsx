@@ -1,53 +1,57 @@
-import { useNavigate } from 'react-router-dom';
-import './Menu.css';
+import React from 'react';// Importamos React
+import { Link, Outlet } from 'react-router-dom';// Importamos Link y Outlet de react-router-dom para la navegación dinámica
+import { Home, Package, Folder, Users, ShoppingCart, LogOut, LayoutGrid } from 'lucide-react';// Importamos los iconos de la interfaz
+import './Menu.css';// Importamos los estilos del menú
 
-function Menu() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate('/');
-  };
-
+export default function Menu() {
   return (
-    <div className="menu-container">
-      
-      <header className="menu-header">
-        <h1>Menú de Riblue</h1>
-        <button className="btn-logout" onClick={handleLogout}>
-          Cerrar Sesión
-        </button>
-      </header>
+    <div className="layout-container">
+      {/* ===== BARRA LATERAL FIJA ===== */}
+      <aside className="sidebar">
+        <div className="sidebar-brand">
+          <LayoutGrid size={24} />
+          <div>
+            <div className="brand-title">RIBLUE</div>
+            <div className="brand-subtitle">Gestión de Coctelería</div>
+          </div>
+        </div>
 
-      <div className="menu-grid">
-        
-        {/* Cada tarjeta ahora es un <button> con su onClick */}
-        <button className="menu-card" onClick={() => navigate('/categorias')}>
-          <h2>Categorías</h2>
-        </button>
+        <nav className="sidebar-nav">
+          <div className="nav-section-label">Menú Principal</div>
+          <ul className="nav-list">
+            <li>
+              <Link to="/categorias" className="nav-item">
+                <Folder size={18} /> Categorías
+              </Link>
+            </li>
+            <li>
+              <Link to="/clientes" className="nav-item">
+                <Users size={18} /> Clientes
+              </Link>
+            </li>
+            <li>
+              <Link to="/ventas" className="nav-item">
+                <ShoppingCart size={18} /> Ventas
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
 
-        <button className="menu-card" onClick={() => navigate('/ventas')}>
-          <h2>Ventas</h2>
-        </button>
+      {/* ===== ÁREA PRINCIPAL ===== */}
+      <main className="main-wrapper">
+        <header className="top-header">
+          <h1>Panel de Control</h1>
+          <button className="logout-btn">
+            <LogOut size={14} /> Cerrar sesión
+          </button>
+        </header>
 
-        <button className="menu-card" onClick={() => navigate('/clientes')}>
-          <h2>Clientes</h2>
-        </button>
-
-        <button className="menu-card" onClick={() => navigate('/productos')}>
-          <h2>Productos</h2>
-        </button>
-
-        <button className="menu-card" onClick={() => navigate('/proveedores')}>
-          <h2>Proveedores</h2>
-        </button>
-
-        <button className="menu-card" onClick={() => navigate('/tipos')}>
-          <h2>Tipos</h2>
-        </button>
-
-      </div>
+        {/* AQUÍ SE INYECTAN DINÁMICAMENTE CLIENTES, CATEGORÍAS O VENTAS */}
+        <section className="content-area">
+          <Outlet /> 
+        </section>
+      </main>
     </div>
   );
 }
-
-export default Menu;
