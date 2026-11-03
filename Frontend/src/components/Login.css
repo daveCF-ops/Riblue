@@ -1,0 +1,80 @@
+.container{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+.login-left{
+    width: 50%;
+    background-color: #1C3753;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-card{
+    background-color: #152B42; /* Un azul un poquito más oscuro/claro que el fondo */
+    padding: 40px; /* Espacio interno para que no se pegue el texto */
+    border-radius: 12px; /* Esquinas redondeadas */
+    width: 100%;
+    max-width: 350px; /* Para que no ocupe toda la mitad si la pantalla es gigante */
+    border: 1px solid #233D58; /* Un borde sutil */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Una sombrita para que resalte */
+}
+.login-logo{
+    display: flex;
+    justify-content: center; /* Centra el logo horizontalmente */
+    margin-bottom: 20px; /* Espacio debajo del logo */
+}
+.login-logo img{
+    width: 60px; /* Ajusta el tamaño del logo */
+    height: auto; /* Mantiene la proporción del logo */
+    max-width: 100%; /* Asegura que no se salga del contenedor */
+}
+.login-card h1{
+    color: #FFFFFF; /* Blanco para que contraste con el fondo */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    text-align: center; /* Centrar el texto */
+}
+.login-card p{
+    color: #FFFFFF; /* Un blanco para los párrafos */
+    margin-bottom: 30px; /* Espacio debajo del párrafo */
+    text-align: center; /* Centrar el texto */
+}
+.login-card label{
+    color: #FFFFFF; /* Blanco para los labels */
+    display: block; /* Para que cada label esté en su propia línea */
+    margin-bottom: 5px; /* Espacio debajo del label */
+}
+.btn-entrar {
+    background-color: #FFFFFF; /* Color blanco */
+    color: #152B42; /* Texto oscuro */
+    border: none; 
+    padding: 12px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    width: 100%; 
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+.btn-entrar:hover {
+    background-color: #E0E0E0; /* Un gris claro al pasar el mouse */
+}
+/* Esto apunta a los inputs que están DENTRO de tus divs */
+.login-email input,.login-password input {
+    background-color: #1C3753; /*Cambia el fondo blanco por azul oscuro */
+    color: white; /* El texto que escriba el usuario será blanco */
+    border: 1px solid #233D58; /* Un borde sutil en vez del gris feo */
+    border-radius: 6px; /* Esquinas redondeadas */
+    padding: 12px; /*Esto hace que el rectángulo sea más alto (espacio interno) */
+    width: 100%; /* Ocupa todo el ancho de la tarjeta */
+    margin-bottom: 15px; /* Separa el input de email del de password */
+    outline: none; /* Quita la línea azul que aparece al hacer clic */
+    box-sizing: border-box; 
+}
+
+
+.login-right{
+    width: 50%;
+    background-color: #F5F5F5;
+}
