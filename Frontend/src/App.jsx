@@ -5,6 +5,7 @@ import Clientes from './components/Clientes';
 import Productos from './components/Productos';
 import Proveedores from './components/Proveedores';
 import Categorias from './components/Categorias'; 
+import Tipos from './components/Tipos'; // <-- FALTABA ESTA LÍNEA
 import Ventas from './components/Ventas';
 import './App.css';
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/productos" element={<Productos />} />
           <Route path="/proveedores" element={<Proveedores />} />
           <Route path="/categorias" element={<Categorias />} />
+          <Route path="/tipos" element={<Tipos />} /> {/* <-- FALTABA ESTA RUTA */}
           <Route path="/ventas" element={<Ventas />} />
         </Route>
 

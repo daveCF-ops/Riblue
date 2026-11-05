@@ -1,38 +1,82 @@
-import { useState } from 'react';
 
-export default function FormularioProveedor({ onGuardar, onCerrar }) {
-  const [empresa, setEmpresa] = useState('');
-  const [contacto, setContacto] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [email, setEmail] = useState('');
-  const [ciudad, setCiudad] = useState('');
+import React, { useState, useEffect } from 'react'; // Importa React y los hooks necesarios.
+import '../Categorias.css'; // Reutiliza los estilos de Categorias.
 
-  const manejarSubmit = (e) => {
+export default function FormularioProveedor({ mostrarModal, onClose, onSave, proveedorEditando }) {
+  // Estado único que agrupa todos los campos del proveedor.
+  const [formData, setFormData] = useState({
+    empresa: '', contacto: '', telefono: '', email: '', ciudad: ''
+  });
+
+  // Al abrir el modal, carga los datos del proveedor si se está editando; si no, limpia el formulario.
+  useEffect(() => {
+    if (proveedorEditando) {
+      setFormData(proveedorEditando);
+    } else {
+      setFormData({ empresa: '', contacto: '', telefono: '', email: '', ciudad: '' });
+    }
+  }, [proveedorEditando, mostrarModal]);
+
+  // ⚠️ Salida temprana clave: si el modal no debe mostrarse, no renderiza nada.
+  if (!mostrarModal) return null;
+
+  // Actualiza dinámicamente el campo correspondiente usando el atributo `name` del input.
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!empresa) return alert('El nombre de la empresa es obligatorio');
-    
-    onGuardar({ id: Date.now(), empresa, contacto, telefono, email, ciudad });
+    // Valida que el nombre de la empresa esté presente antes de guardar.
+    if (!formData.empresa) return alert('El nombre de la empresa es obligatorio');
+    onSave(formData);
   };
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-      <div style={{ background: 'white', padding: '24px', borderRadius: '12px', width: '100%', maxWidth: '450px' }}>
-        <h3 style={{ marginTop: 0 }}>Registrar Proveedor</h3>
-        <form onSubmit={manejarSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <input type="text" placeholder="Nombre de la empresa *" value={empresa} onChange={(e) => setEmpresa(e.target.value)} style={inputStyle} required />
-          <input type="text" placeholder="Nombre del contacto" value={contacto} onChange={(e) => setContacto(e.target.value)} style={inputStyle} />
-          <input type="text" placeholder="Teléfono" value={telefono} onChange={(e) => setTelefono(e.target.value)} style={inputStyle} />
-          <input type="email" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
-          <input type="text" placeholder="Ciudad" value={ciudad} onChange={(e) => setCiudad(e.target.value)} style={inputStyle} />
+    // Overlay con scroll por si el formulario es alto.
+    <div className="modal-overlay" style={{ alignItems: 'flex-start', overflowY: 'auto', padding: '20px' }}>
+      <div className="modal-content" style={{ maxWidth: '550px', padding: '32px', margin: 'auto' }}>
+        
+        {/* Título dinámico según si se está editando o registrando un proveedor. */}
+        <div className="modal-header" style={{ marginBottom: '24px' }}>
+          <h3 style={{ margin: 0 }}>{proveedorEditando ? 'Editar Proveedor' : 'Registrar Proveedor'}</h3>
+        </div>
+        
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Datos principales del proveedor: empresa obligatoria y contacto. */}
+          <div className="form-group">
+            <label>Nombre de la empresa *</label>
+            <input name="empresa" value={formData.empresa} onChange={handleChange} required placeholder="Ej. Distribuidora La Europea" />
+          </div>
           
-          <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-            <button type="button" onClick={onCerrar} style={{ flex: 1, padding: '10px', background: '#e0e0e0', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Cancelar</button>
-            <button type="submit" className="boton" style={{ flex: 1 }}>Guardar</button>
+          <div className="form-group">
+            <label>Nombre del contacto</label>
+            <input name="contacto" value={formData.contacto} onChange={handleChange} placeholder="Ej. Carlos Ruiz" />
+          </div>
+          
+          {/* Datos de contacto: teléfono, correo y ciudad. */}
+          <div className="form-group">
+            <label>Teléfono</label>
+            <input name="telefono" value={formData.telefono} onChange={handleChange} placeholder="Ej. 555-999-888" />
+          </div>
+
+          <div className="form-group">
+            <label>Correo electrónico</label>
+            <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Ej. ventas@laeuropea.com" />
+          </div>
+
+          <div className="form-group">
+            <label>Ciudad</label>
+            <input name="ciudad" value={formData.ciudad} onChange={handleChange} placeholder="Ej. CDMX" />
+          </div>
+          
+          {/* Acciones del formulario: cancelar o guardar. */}
+          <div className="modal-footer" style={{ marginTop: '16px' }}>
+            <button type="button" className="btn-cancelar" onClick={onClose}>Cancelar</button>
+            <button type="submit" className="btn-guardar">Guardar</button>
           </div>
         </form>
       </div>
     </div>
   );
 }
-
-const inputStyle = { padding: '10px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '1rem', width: '100%', boxSizing: 'border-box' };
