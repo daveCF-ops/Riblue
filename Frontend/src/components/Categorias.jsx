@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 import React, { useState } from 'react'; // Importa React y useState para manejar estados.
 import { Edit, Plus, Trash2 } from 'lucide-react'; // Importa los iconos de editar, agregar y eliminar.
 import FormularioCategoria from './Modals/FormularioCategoria'; // Importa el formulario de categorías.

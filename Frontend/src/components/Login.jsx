@@ -7,9 +7,8 @@ function Login() {
 
     //3. Creamos la función que maneja el envío
     const handleLogin = (e) => {
-        e.preventDefault(); // ¡CRUCIAL! Evita que la página se recargue y se borren los datos
+        e.preventDefault(); //Evita que la página se recargue y se borren los datos
         
-        // Aquí en el futuro validarás contra el backend.
         // Por ahora, solo simulamos que fue exitoso y navegamos al menú:
         navigate('/menu'); 
     }

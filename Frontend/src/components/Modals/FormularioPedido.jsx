@@ -1,40 +1,49 @@
-/* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import '../Categorias.css';
-import { Trash2, Plus } from 'lucide-react';
+
+import React, { useState, useEffect } from 'react'; // Importa React y los hooks necesarios.
+import '../Categorias.css'; // Reutiliza estilos de Categorias.
+import { Trash2, Plus } from 'lucide-react'; // Iconos para agregar y eliminar productos del carrito.
 
 export default function FormularioPedido({ mostrarModal, onClose, onSave, proveedores }) {
+  // --- Datos generales del pedido ---
   const [proveedor, setProveedor] = useState('');
   const [fechaEntrega, setFechaEntrega] = useState('');
-  const [horaEntrega, setHoraEntrega] = useState('12:00');
+  const [horaEntrega, setHoraEntrega] = useState('12:00'); // Hora por defecto del select.
   
+  // --- Datos del insumo que se está capturando ---
   const [nombreInsumo, setNombreInsumo] = useState('');
   const [costoTotal, setCostoTotal] = useState('');
-  const [tipoEmpaque, setTipoEmpaque] = useState('Caja');
+  const [tipoEmpaque, setTipoEmpaque] = useState('Caja'); // Define si se captura por caja o suelto.
   const [cantidadCajas, setCantidadCajas] = useState('1');
   const [piezasPorCaja, setPiezasPorCaja] = useState('12');
   const [contenidoCaja, setContenidoCaja] = useState('Botella');
   const [medida, setMedida] = useState('750 ml');
-  const [cantidadPiezas, setCantidadPiezas] = useState('1');
+  const [cantidadPiezas, setCantidadPiezas] = useState('1'); // Solo se usa cuando el empaque no es caja.
+  
+  // --- Carrito con los productos agregados al pedido ---
   const [carrito, setCarrito] = useState([]);
 
+  // Genera automáticamente la fecha y hora en que se crea el pedido.
   const fechaPedidoAuto = new Date().toLocaleDateString('es-MX') + ' a las ' + new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
 
-  // GENERAMOS LAS HORAS CERRADAS
+  // Genera las opciones de hora de entrega en formato HH:00 (de 06:00 a 23:00).
   const opcionesHoras = [];
   for (let i = 6; i <= 23; i++) {
     opcionesHoras.push(i.toString().padStart(2, '0') + ':00');
   }
 
+  // Preselecciona el primer proveedor cuando cambian los proveedores o se abre el modal.
   useEffect(() => {
     if (proveedores && proveedores.length > 0) setProveedor(proveedores[0].empresa);
   }, [proveedores, mostrarModal]);
 
+  // Si el modal no debe mostrarse, no renderiza nada.
   if (!mostrarModal) return null;
 
   const agregarAlCarrito = () => {
+    // Valida que existan los datos mínimos antes de agregar.
     if (!nombreInsumo || !costoTotal) return alert('Escribe el nombre y el costo del insumo');
 
+    // Construye el texto descriptivo de la unidad según el tipo de empaque.
     let textoUnidadFinal = '';
     if (tipoEmpaque === 'Caja') {
       textoUnidadFinal = `${cantidadCajas} Caja(s) de ${piezasPorCaja} ${contenidoCaja}(s) (${medida} c/u)`;
@@ -42,6 +51,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
       textoUnidadFinal = `${cantidadPiezas} ${tipoEmpaque}(s) suelta(s) - ${medida}`;
     }
 
+    // Crea el item del carrito con un ID único y el costo convertido a número.
     const nuevoItem = {
       id: Date.now(),
       nombre: nombreInsumo,
@@ -50,6 +60,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
     };
 
     setCarrito([...carrito, nuevoItem]);
+    // Limpia los campos del insumo tras agregarlo para capturar el siguiente.
     setNombreInsumo('');
     setCostoTotal('');
     setCantidadCajas('1');
@@ -57,19 +68,24 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
   };
 
   const eliminarDelCarrito = (id) => {
+    // Conserva solo los items cuyo ID sea diferente al que se elimina.
     setCarrito(carrito.filter(item => item.id !== id));
   };
 
   const manejarSubmit = (e) => {
     e.preventDefault();
+    // No permite agendar un pedido sin productos.
     if (carrito.length === 0) return alert('Agrega al menos un producto al pedido');
 
+    // Suma los costos de los items del carrito.
     const costoTotalPedido = carrito.reduce((sum, item) => sum + item.costo, 0);
 
+    // Arma el pedido final con los datos del formulario y el carrito.
     const nuevoPedido = {
       id: Date.now(),
       proveedor,
       fechaPedido: fechaPedidoAuto,
+      // Si no hay fecha de entrega, queda como "Pendiente".
       fechaEntrega: fechaEntrega ? `${fechaEntrega} a las ${horaEntrega}` : 'Pendiente',
       productos: carrito,
       costoTotal: costoTotalPedido,
@@ -80,6 +96,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
   };
 
   return (
+    // Overlay con scroll vertical por si el formulario es alto.
     <div className="modal-overlay" style={{ alignItems: 'flex-start', overflowY: 'auto', padding: '20px' }}>
       <div className="modal-content" style={{ maxWidth: '700px', padding: '32px', margin: 'auto' }}>
         
@@ -89,6 +106,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
         
         <form onSubmit={manejarSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           
+          {/* Datos generales: proveedor, fecha y hora de entrega. */}
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <div className="form-group" style={{ flex: 1, minWidth: '200px' }}>
               <label>Proveedor</label>
@@ -101,7 +119,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
               <input type="date" value={fechaEntrega} onChange={(e) => setFechaEntrega(e.target.value)} required />
             </div>
             
-            {/* SELECT DE HORAS CERRADAS */}
+            {/* Selector de horas cerradas generadas previamente. */}
             <div className="form-group" style={{ flex: 1, minWidth: '100px' }}>
               <label>Hora de entrega</label>
               <select value={horaEntrega} onChange={(e) => setHoraEntrega(e.target.value)} required>
@@ -110,12 +128,14 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
             </div>
           </div>
 
+          {/* Bloque para capturar y agregar un insumo al carrito. */}
           <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
             <h4 style={{ margin: '0 0 12px 0', fontSize: '0.9rem', color: '#1e293b' }}>Agregar producto al pedido</h4>
             
             <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
               <div className="form-group" style={{ flex: 2 }}>
                 <label>Nombre del insumo</label>
+                {/* Fuerza el nombre a mayúsculas al escribir. */}
                 <input type="text" placeholder="Ej. Tequila Reposado..." value={nombreInsumo} onChange={(e) => setNombreInsumo(e.target.value.toUpperCase())} />
               </div>
               <div className="form-group" style={{ flex: 1 }}>
@@ -124,6 +144,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
               </div>
             </div>
 
+            {/* Define si el insumo se captura por caja o por piezas sueltas. */}
             <div className="form-group" style={{ marginBottom: '12px' }}>
               <label>¿Cómo lo pediste?</label>
               <select value={tipoEmpaque} onChange={(e) => setTipoEmpaque(e.target.value)}>
@@ -132,6 +153,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
               </select>
             </div>
 
+            {/* Captura condicional: campos de caja o campo de piezas sueltas. */}
             {tipoEmpaque === 'Caja' ? (
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '12px' }}>
                 <div className="form-group" style={{ flex: 1 }}>
@@ -158,6 +180,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
               </div>
             ) : (
               <div className="form-group" style={{ marginBottom: '12px' }}>
+                {/* El label usa el tipo de empaque para mostrar "botellas", "latas", etc. */}
                 <label>Cantidad de {tipoEmpaque.toLowerCase()}s sueltas</label>
                 <input type="number" min="1" value={cantidadPiezas} onChange={(e) => setCantidadPiezas(e.target.value)} />
               </div>
@@ -174,6 +197,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
             </div>
           </div>
 
+          {/* Tabla del carrito: solo se muestra cuando hay al menos un producto. */}
           {carrito.length > 0 && (
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -200,6 +224,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
                   ))}
                 </tbody>
               </table>
+              {/* Total calculado al vuelo sumando los costos del carrito. */}
               <div style={{ padding: '12px', background: '#f8fafc', textAlign: 'right', fontWeight: 'bold', color: '#1e293b' }}>
                 Total del Pedido: ${carrito.reduce((sum, item) => sum + item.costo, 0).toFixed(2)}
               </div>
@@ -208,6 +233,7 @@ export default function FormularioPedido({ mostrarModal, onClose, onSave, provee
 
           <div className="modal-footer" style={{ marginTop: '16px' }}>
             <button type="button" className="btn-cancelar" onClick={onClose}>Cancelar</button>
+            {/* El botón de guardar se deshabilita si el carrito está vacío. */}
             <button type="submit" className="btn-guardar" disabled={carrito.length === 0}>Agendar Pedido</button>
           </div>
         </form>
